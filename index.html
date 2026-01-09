@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Two Form Validation</title>
+<style>
+    body { font-family: Arial; padding: 20px; }
+    .form-box {
+        border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;
+        border-radius: 6px; width: 320px;
+    }
+    .input-field {
+        width: 95%; padding: 7px; margin: 6px 0;
+        border-radius: 4px; border: 1px solid #555;
+    }
+    .error {
+        border: 2px solid red !important;
+        background-color: #ffe6e6;
+    }
+    .msg { color: red; font-size: 13px; margin: 0 0 6px 0; }
+</style>
+</head>
+
+<body>
+<center>
+<h2>Form 1</h2>
+<div class="form-box" id="form1">
+    <input type="text" id="f1_name" class="input-field" placeholder="Enter Name">
+    <p id="f1_nameErr" class="msg"></p>
+
+    <input type="text" id="f1_email" class="input-field" placeholder="Enter Email">
+    <p id="f1_emailErr" class="msg"></p>
+
+    <input type="password" id="f1_pass" class="input-field" placeholder="Enter Password">
+    <p id="f1_passErr" class="msg"></p>
+
+    <input type="password" id="f1_cpass" class="input-field" placeholder="Confirm Password">
+    <p id="f1_cpassErr" class="msg"></p>
+</div>
+
+<h2>Form 2</h2>
+<div class="form-box" id="form2">
+    <input type="text" id="f2_name" class="input-field" placeholder="Enter Name">
+    <p id="f2_nameErr" class="msg"></p>
+
+    <input type="text" id="f2_email" class="input-field" placeholder="Enter Email">
+    <p id="f2_emailErr" class="msg"></p>
+
+    <input type="password" id="f2_pass" class="input-field" placeholder="Enter Password">
+    <p id="f2_passErr" class="msg"></p>
+
+    <input type="password" id="f2_cpass" class="input-field" placeholder="Confirm Password">
+    <p id="f2_cpassErr" class="msg"></p>
+</div>
+
+
+<h3>Enter form name to validate (form1 / form2)</h3>
+<input type="text" id="formSelector" placeholder="form1 or form2">
+<button onclick="validateSelected()">Validate</button>
+
+<h3 id="resultMsg"></h3>
+</center>
+
+
+<script>
+function resetErrors() {
+    document.querySelectorAll("input").forEach(inp => inp.classList.remove("error"));
+    document.querySelectorAll(".msg").forEach(msg => msg.textContent = "");
+}
+
+function validateFields(name, email, pass, cpass, prefix) {
+    let valid = true;
+
+    if(name.value === "") {
+        name.classList.add("error");
+        document.getElementById(prefix + "_nameErr").textContent = "Name is required!";
+        valid = false;
+    }   
+    else{
+        let nameRegex = /^[A-Za-z]+$/;
+        if (!name.value.match(nameRegex)) {
+            name.classList.add("error");
+            document.getElementById(prefix + "_nameErr").textContent = "Name must contain only letters";
+            valid = false;
+        }
+    }
+
+    if(email.value === "") {
+        email.classList.add("error");
+        document.getElementById(prefix + "_emailErr").textContent = "Email is required!";
+        valid = false;
+    }
+    else{
+        let emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]+$/;
+        if (!email.value.match(emailRegex)) {
+            email.classList.add("error");
+            document.getElementById(prefix + "_emailErr").textContent = "Invalid email!";
+            valid = false;
+        }
+    }
+
+    if(pass.value === "") {
+        pass.classList.add("error");
+        document.getElementById(prefix + "_passErr").textContent = "Password is required!";
+        valid = false;
+    }
+    else
+    {
+        let passRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+        if (!pass.value.match(passRegex)) {
+            pass.classList.add("error");
+            document.getElementById(prefix + "_passErr").textContent = "1 uppercase, 1 lowercase & 1 digit required";
+            valid = false;
+        }
+    }
+
+    if(cpass.value === "") {
+        cpass.classList.add("error");
+        document.getElementById(prefix + "_cpassErr").textContent = "Confirm Password is required!";
+        valid = false;
+    }
+    else
+    {
+        if (cpass.value !== pass.value || cpass.value === "") {
+            cpass.classList.add("error");
+            document.getElementById(prefix + "_cpassErr").textContent = "Passwords do not match!";
+            valid = false;
+        }
+    }
+
+    return valid;
+}
+
+function validateSelected() {
+    resetErrors();
+
+    let selected = document.getElementById("formSelector").value;
+    let resultMsg = document.getElementById("resultMsg");
+    resultMsg.textContent = "";
+
+    let valid = false;
+
+    if (selected === "form1") {
+        valid = validateFields(
+            document.getElementById("f1_name"),
+            document.getElementById("f1_email"),
+            document.getElementById("f1_pass"),
+            document.getElementById("f1_cpass"),
+            "f1"
+        );
+
+    } else if (selected === "form2") {
+        valid = validateFields(
+            document.getElementById("f2_name"),
+            document.getElementById("f2_email"),
+            document.getElementById("f2_pass"),
+            document.getElementById("f2_cpass"),
+            "f2"
+        );
+
+    } else {
+        resultMsg.style.color = "red";
+        resultMsg.textContent = "Invalid form name! Type form1 or form2";
+        return;
+    }
+
+    if (valid) {
+        resultMsg.style.color = "green";
+        resultMsg.textContent = "Validation Success!";
+    } else {
+        resultMsg.style.color = "red";
+        resultMsg.textContent = "Validation Failed!";
+    }
+}
+</script>
+
+</body>
+</html>
