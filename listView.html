@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reminder List View</title>
+    <link rel="stylesheet" href="listView.css" />
+</head>
+<body>
+    <div class="main">
+      <div class="cont1">
+        <h1>To-Do List</h1>
+        <div class="cont1inner1">
+          <button class="viewBtn" id="grid">Grid View</button>
+          <button class="viewBtn" id="table">Table View</button>
+        </div>
+    </div>
+    
+      <div class="cont2">
+        <div class="cont2inner1">
+            <div class="header">
+                <h1>My Todo</h1>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search..." />
+                </div>
+                <button class="add-button" id="addbtn">+ Add New Task</button>
+            </div>
+        </div>
+
+        <!-- Result Container -->
+        <div id="cardContainer" class="cont2inner2">
+            <h1 id="empty">No Tasks Found</h1>
+        </div>
+
+        <div id="tableContainer" class="cont2table2">
+            <table id="taskTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Priority</th>
+                        <th>Date</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Table rows will be added here dynamically -->
+                </tbody>
+            </table>
+            <h2 id="emptyTableMsg">No Tasks Found</h2>
+        </div>
+
+        <div id="modalOverlay" class="modal-overlay">
+            <div class="modal-content">
+                <form id="reminderForm">
+                    <h3>Add Reminder</h3>
+                    <input id="title" placeholder="Title" required />
+                    
+                    <select id="category" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Shopping">Shopping</option>
+                    </select>
+
+                    <select id="priority" required>
+                        <option value="" disabled selected>Select Priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    
+                    <input type="date" id="date" required />
+                    
+                    <textarea id="note" placeholder="Enter Your Notes..." rows="3"></textarea
+                    >
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn" id="saveBtn">Save</button>
+                        <button type="submit" class="btn" id="cancelBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    <script src="mainScript.js"></script>
+  </body>
+  </html>
+  
